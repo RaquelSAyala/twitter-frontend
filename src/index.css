@@ -1,0 +1,133 @@
+:root {
+  --primary: #1d9bf0;
+  --bg: #000000;
+  --surface: #16181c;
+  --text: #e7e9ea;
+  --text-dim: #71767b;
+  --border: #2f3336;
+  --glass: rgba(22, 24, 28, 0.7);
+  --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-main);
+  line-height: 1.5;
+  overflow-y: scroll;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  min-height: 100vh;
+}
+
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+  transition: background 0.2s;
+}
+
+.card:hover {
+  background: #1d1f23;
+}
+
+.btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  padding: 10px 24px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn:hover:not(:disabled) {
+  filter: brightness(0.9);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border);
+}
+
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+input, textarea {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 1.2rem;
+  width: 100%;
+  outline: none;
+  resize: none;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+}
+
+.post-meta {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.post-author {
+  font-weight: 700;
+}
+
+.post-handle {
+  color: var(--text-dim);
+}
+
+.post-time {
+  color: var(--text-dim);
+}
+
+.post-content {
+  font-size: 15px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
