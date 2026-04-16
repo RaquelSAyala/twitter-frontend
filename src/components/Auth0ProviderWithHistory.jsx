@@ -21,8 +21,8 @@ const Auth0ProviderWithHistory = ({ children }) => {
     <Auth0Provider
       domain={domain}
       clientId={clientId}
-      cacheLocation="localstorage"
-      useRefreshTokens={true}
+      cacheLocation="memory"
+      useRefreshTokens={false}
       authorizationParams={{
         redirect_uri: redirectUri,
         audience,

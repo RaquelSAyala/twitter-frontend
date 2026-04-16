@@ -22,6 +22,30 @@ function App() {
     fetchPosts();
   }, []);
 
+  useEffect(() => {
+    const detectBackendRestart = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/instance`);
+        const currentInstanceId = response?.data?.instanceId;
+        if (!currentInstanceId) {
+          return;
+        }
+
+        const storageKey = 'twitter_backend_instance_id';
+        const previousInstanceId = sessionStorage.getItem(storageKey);
+        sessionStorage.setItem(storageKey, currentInstanceId);
+
+        if (previousInstanceId && previousInstanceId !== currentInstanceId && isAuthenticated) {
+          logout({ logoutParams: { returnTo: window.location.origin } });
+        }
+      } catch (error) {
+        console.error('Error checking backend instance:', error);
+      }
+    };
+
+    detectBackendRestart();
+  }, [isAuthenticated, logout]);
+
   const fetchPosts = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/stream`);
@@ -37,6 +61,10 @@ function App() {
 
     setIsPosting(true);
     try {
+      const username = user?.email?.includes('@')
+        ? user.email.split('@')[0]
+        : (user?.nickname || user?.name || '');
+
       const token = await getAccessTokenSilently({
         authorizationParams: {
           audience: import.meta.env.VITE_AUTH0_AUDIENCE,
@@ -45,7 +73,7 @@ function App() {
       });
       await axios.post(
         `${API_BASE_URL}/posts`,
-        { content },
+        { content, username },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -139,8 +167,7 @@ function App() {
           {posts.map((post) => (
             <div key={post.id} className="card">
               <div className="post-meta">
-                <span className="post-author">{post.author}</span>
-                <span className="post-handle">@{post.authorId.substring(0, 8)}</span>
+                <span className="post-author">{post.author || ''}</span>
                 <span className="post-time">· {new Date(post.createdAt).toLocaleDateString()}</span>
               </div>
               <div className="post-content">{post.content}</div>
