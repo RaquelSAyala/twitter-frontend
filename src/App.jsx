@@ -37,7 +37,12 @@ function App() {
 
     setIsPosting(true);
     try {
-      const token = await getAccessTokenSilently();
+      const token = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: import.meta.env.VITE_AUTH0_AUDIENCE,
+          scope: 'write:posts',
+        },
+      });
       await axios.post(
         `${API_BASE_URL}/posts`,
         { content },
